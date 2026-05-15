@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -20,11 +17,15 @@ public class PlayerController : MonoBehaviour
 
     private float verticalRotation;
 
+    private Camera mainCamera;
+
 
     void Start()
     {
         // 组件
         characterController = GetComponent<CharacterController>();
+
+        mainCamera = Camera.main;
 
         // 鼠标锁定隐藏
         Cursor.lockState = CursorLockMode.Locked;
@@ -63,7 +64,7 @@ public class PlayerController : MonoBehaviour
         // 垂直旋转
         verticalRotation -= mouseY;
         verticalRotation = Mathf.Clamp(verticalRotation, minLookAngle, maxLookAngle);
-        Camera.main.transform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
+        mainCamera.transform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
     }
 
 }
