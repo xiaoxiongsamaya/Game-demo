@@ -1,0 +1,63 @@
+# 此 .gitignore 文件应放在 Unity 项目的根目录
+# 适用于 Unity 2022.3 及以上版本
+
+# ========== Unity 自动生成的目录（必须忽略）==========
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+
+# ========== 内存捕获与性能分析（体积可能很大）==========
+/[Mm]emoryCaptures/
+
+# ========== IDE 和工具生成的缓存/配置 ==========
+.idea/
+.vs/
+.vscode/
+.gradle/
+
+# ========== Visual Studio / Rider 自动生成的文件 ==========
+*.csproj
+*.sln
+*.suo
+*.user
+*.userosscache
+*.userprefs
+
+# ========== 操作系统生成的文件 ==========
+.DS_Store
+Thumbs.db
+
+# ========== 资源文件（根据你的需求选择）==========
+# 根据你“不上传美术资源”的计划，建议忽略以下二进制文件
+*.psd
+*.fbx
+*.mb
+*.ma
+*.max
+*.3ds
+*.dae
+*.obj
+
+# 音频、视频文件
+*.wav
+*.mp3
+*.ogg
+*.mp4
+*.mov
+*.avi
+
+# 其他可能的二进制文件或压缩包
+*.zip
+*.rar
+*.7z
+*.unitypackage
+
+# ========== 关键规则：必须上传 .meta 文件 ==========
+# 忽略所有 .meta 文件
+*~*.meta
+# 但保留 Assets 下的所有 .meta 文件，它们记录了资源导入设置，非常重要
+!/[Aa]ssets/**/*.meta
