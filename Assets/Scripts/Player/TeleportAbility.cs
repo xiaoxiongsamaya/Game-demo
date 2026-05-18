@@ -17,56 +17,80 @@ public class TeleportAbility : MonoBehaviour
     // 状态
     private bool isJudgment;
 
+    // 层级
+    public LayerMask groundLayer = ~0;
     // 组件
     public GameObject indicator;
-    public LayerMask groundLayer = ~0;
+
+    private Rigidbody indicatorRigidbody;
+    private Collider indicatorCollider;
     private Camera mainCamera;
 
 
     void Start()
     {
         mainCamera = Camera.main;
+
+        indicatorCollider = indicator.GetComponent<Collider>();
+
+        indicatorRigidbody = indicator.GetComponent<Rigidbody>();
+        if(indicatorRigidbody == null)
+        {
+            indicatorRigidbody = indicator.AddComponent<Rigidbody>();
+        }
+        indicatorRigidbody.isKinematic = false;
+        indicatorRigidbody.useGravity = false;
+        indicatorRigidbody.constraints = RigidbodyConstraints.FreezeRotation;
     }
 
 
     void Update()
     {
-        TeleportJudgment();
+        HandleInput();
         PositionCalculation();
     }
 
-    // 瞬移预览
-    void TeleportJudgment()
+    // 瞬移按键
+    void HandleInput()
     {
         if(Input.GetKeyDown(teleportKey))
         {
-            if(isJudgment == false)
-            {
-                isJudgment = true;
-                indicator.SetActive(true);
-            }
-            else
-            {
-                isJudgment = false;
-                indicator.SetActive(false);
-            }
+            isJudgment = !isJudgment;
+            indicator.SetActive(isJudgment);
         }
     }
 
     // 位置计算
     void PositionCalculation()
     {
-        if(isJudgment == true)
+        if(!isJudgment) return;
+
+        // 判空检查
+        if (indicator == null)
         {
-            Vector3 forwardPos = mainCamera.transform.position + mainCamera.transform.forward * maxTeleportDistance;
-
-            if(Physics.Raycast(forwardPos,Vector3.down,out RaycastHit hit,maxGroundJudgmentDistance,groundLayer))
-            {
-                teleportPos = hit.point;
-            }
-
-            indicator.transform.position = teleportPos + Vector3.up * 0.05f;
+            Debug.LogError("indicator 为空！");
+            return;
+        }
+        if (indicatorCollider == null)
+        {
+            Debug.LogError("indicatorCollider 为空！");
+            return;
+        }
+        if (indicatorRigidbody == null)
+        {
+            Debug.LogError("indicatorRigidbody 为空！");
+            return;
         }
 
+        Vector3 forwardPos = mainCamera.transform.position + mainCamera.transform.forward * maxTeleportDistance;
+
+        indicatorCollider.enabled = false;
+        if(Physics.Raycast(forwardPos,Vector3.down,out RaycastHit hit,maxGroundJudgmentDistance,groundLayer))
+        {
+            teleportPos = hit.point + Vector3.up * 0.05f;
+        }
+        indicatorCollider.enabled = true;
+
+        indicatorRigidbody.MovePosition(teleportPos);
     }
 }
