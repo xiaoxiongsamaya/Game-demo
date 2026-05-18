@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    // ×é¼ş
+    // ç»„ä»¶
     private CharacterController characterController;
 
-    // ËÙ¶È
-    [Header("ËÙ¶È")]
+    // é€Ÿåº¦
+    [Header("é€Ÿåº¦")]
     public float Speed = 5f;
 
-    // Êó±ê
-    [Header("Êó±ê")]
+    // é¼ æ ‡
+    [Header("é¼ æ ‡")]
     public float Senstivity = 5f;
     public float minLookAngle = -90f;
     public float maxLookAngle = 90f;
@@ -22,49 +22,50 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        // ×é¼ş
+        // ç»„ä»¶
         characterController = GetComponent<CharacterController>();
 
         mainCamera = Camera.main;
 
-        // Êó±êËø¶¨Òş²Ø
+        // é¼ æ ‡é”å®šéšè—
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
     void Update()
     {
-        // ÒÆ¶¯
+        // ç§»åŠ¨
         Movement();
 
-        // ÉãÏñÍ·
+        // æ‘„åƒå¤´
         HandleCamera();
     }
 
     void Movement()
     {
-        // ÒÆ¶¯¿ØÖÆ
+        // ç§»åŠ¨æ§åˆ¶
         float vertical = Input.GetAxis("Vertical");
         float horizontal = Input.GetAxis("Horizontal");
 
-        // ÒÆ¶¯
+        // ç§»åŠ¨
         Vector3 moveDir = transform.forward * vertical + transform.right * horizontal;
         characterController.Move(moveDir.normalized * Speed * Time.deltaTime);
     }
 
     void HandleCamera()
     {
-        // Êó±ê¿ØÖÆ
+        // é¼ æ ‡æ§åˆ¶
         float mouseX = Input.GetAxis("Mouse X") * Senstivity;
         float mouseY = Input.GetAxis("Mouse Y") * Senstivity;
 
-        // Ë®Æ½Ğı×ª
+        // æ°´å¹³æ—‹è½¬
         transform.Rotate(Vector3.up * mouseX);
 
-        // ´¹Ö±Ğı×ª
+        // å‚ç›´æ—‹è½¬
         verticalRotation -= mouseY;
         verticalRotation = Mathf.Clamp(verticalRotation, minLookAngle, maxLookAngle);
         mainCamera.transform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
     }
+    
 
 }
